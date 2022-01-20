@@ -1,0 +1,16 @@
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+@using Microsoft.AspNetCore.Identity
+@using TSM.Common.Interfaces
+@using TSM.Security.Entities
+@using TSM.Web.UI.Models
+@using TSM.Web.UI.ViewModels
+@using TSM.Domain.Entities
+@using TSM.Common.ExtensionMethod
+@using TSM.Common
+
+@inject SignInManager<User> _signInManager
+@inject UserManager<User> _userManager
+@inject ICurrentUserService<int> _currentUserService
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

@@ -1,0 +1,11 @@
+﻿@using TSM.Common.Constant
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; SELECT - Task Management
+
+        @if (User.IsInRole(AppValues.AppRoles.Admin))
+        {
+            <a asp-action="Privacy" asp-controller="Home">Privacy</a>
+        }
+    </div>
+</footer>
