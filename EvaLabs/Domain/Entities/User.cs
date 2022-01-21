@@ -1,12 +1,11 @@
 ﻿using System;
-using EvaLabs.Domain.Configurations;
+using System.Collections.Generic;
 using EvaLabs.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using EvaLabs.Domain.Models.Interfaces;
 
 namespace EvaLabs.Domain.Entities
 {
-    public class AspNetUser : Auditable<int?>
+    public class User : Auditable<int?>, IIdentityUser<int>
     {
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }
@@ -25,26 +24,11 @@ namespace EvaLabs.Domain.Entities
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Address { get; set; }
         public string UserType { get; set; }
         public string UserPassword { get; set; }
-
-
+        
         public string FullName => $"{FirstName} {LastName}".Trim();
-    }
 
-    public class AspNetUserConfiguration : ConfigurationBase<AspNetUser, int?>
-    {
-        public override void ConfigureEntity(EntityTypeBuilder<AspNetUser> builder)
-        {
-            builder.ToTable("AspNetUsers", "dbo");
-
-            builder.Ignore(e => e.FullName);
-            builder.Property(e => e.UserPassword).HasMaxLength(50);
-            builder.Property(e => e.UserType).HasMaxLength(50);
-            builder.HasIndex(e => e.NormalizedEmail).HasDatabaseName("EmailIndex");
-            builder.HasIndex(e => e.NormalizedUserName).HasDatabaseName("UserNameIndex").IsUnique()
-                .HasFilter("[NormalizedUserName] IS NOT NULL");
-        }
+        public ICollection<UserTest> UserTests { get; set; }
     }
 }

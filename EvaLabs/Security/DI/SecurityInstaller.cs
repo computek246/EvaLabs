@@ -1,5 +1,4 @@
 ﻿using EvaLabs.Helper;
-using EvaLabs.Helper.ExtensionMethod;
 using EvaLabs.Helper.Installers;
 using EvaLabs.Security.Context;
 using EvaLabs.Security.Entities;
@@ -33,23 +32,8 @@ namespace EvaLabs.Security.DI
 
             services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
-
+            services.Configure<IdentityOptions>(configuration.GetSection("IdentityOptions"));
             services.AddScoped<IEmailSender, EmailSender>();
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = false;
-
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
-            });
-
-            services.GetService<ApplicationDbContext>(c => c.Database.Migrate());
         }
 
         public int Order => 2;

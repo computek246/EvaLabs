@@ -9,6 +9,8 @@ namespace EvaLabs.Helper.Constant
         public const string AuthenticationFailed =
             "The request has not been applied because it lacks valid authentication credentials for the target resource";
 
+        
+
         public static class AppClaims
         {
             public const string Id = "Id";
@@ -23,9 +25,6 @@ namespace EvaLabs.Helper.Constant
         {
             public const string Admin = "Admin";
         }
-
-        public static class AppSettings
-        {
-        }
+        
     }
 }

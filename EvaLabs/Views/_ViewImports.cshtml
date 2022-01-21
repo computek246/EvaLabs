@@ -1,13 +1,10 @@
 @addTagHelper *, Kendo.Mvc
+@using EvaLabs.Interfaces
+@using EvaLabs.Security.Entities
 @using Kendo.Mvc.UI
 @using Microsoft.AspNetCore.Identity
-@using TSM.Common.Interfaces
-@using TSM.Security.Entities
-@using TSM.Web.UI.Models
-@using TSM.Web.UI.ViewModels
-@using TSM.Domain.Entities
-@using TSM.Common.ExtensionMethod
-@using TSM.Common
+@using EvaLabs.Helper.Constant
+@using EvaLabs.Helper.ExtensionMethod
 
 @inject SignInManager<User> _signInManager
 @inject UserManager<User> _userManager

@@ -2,7 +2,6 @@
 using EvaLabs.Helper.ExtensionMethod;
 using EvaLabs.Helper.Installers;
 using EvaLabs.Infrastructure;
-using EvaLabs.Infrastructure.SingletonFactory;
 using EvaLabs.Services.BaseService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

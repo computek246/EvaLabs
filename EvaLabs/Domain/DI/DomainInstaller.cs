@@ -1,5 +1,4 @@
 ﻿using EvaLabs.Domain.Context;
-using EvaLabs.Helper.ExtensionMethod;
 using EvaLabs.Helper.Installers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,8 +16,6 @@ namespace EvaLabs.Domain.DI
                 options.UseSqlServer(connectionString);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-
-            services.GetService<EvaContext>(c => c.Database.Migrate());
         }
 
         public int Order => 1;

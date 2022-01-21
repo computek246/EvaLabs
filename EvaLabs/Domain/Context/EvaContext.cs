@@ -12,6 +12,15 @@ namespace EvaLabs.Domain.Context
             ChangeTracker.LazyLoadingEnabled = false;
         }
 
-        public DbSet<AspNetUser> AspNetUsers { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<Branch> Branches { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Lab> Labs { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<TestStatus> TestStatuses { get; set; }
+        public DbSet<UserTest> UserTests { get; set; }
+        public DbSet<TestResult> TestResults { get; set; }
+
     }
 }

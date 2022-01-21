@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EvaLabs.ViewModels.City;
 
 namespace EvaLabs.Helper.Mapping.Profiles
 {

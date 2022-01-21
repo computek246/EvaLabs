@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using EvaLabs.Helper.ExtensionMethod;
+using EvaLabs.Security.Configurations;
 using EvaLabs.Security.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace EvaLabs.Security.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyAllConfigurationsFromCurrentAssembly(Assembly.GetExecutingAssembly(), typeof(User).Namespace);
+            builder.ApplyAllConfigurationsFromCurrentAssembly(Assembly.GetExecutingAssembly(), typeof(UserConfiguration).Namespace);
         }
     }
 }
