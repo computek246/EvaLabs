@@ -1,0 +1,57 @@
+﻿@using EvaLabs.ViewModels.Test
+
+@{
+    ViewData["Title"] = "Tests";
+}
+
+<h1>Tests</h1>
+
+@(Html.Kendo().Grid<TestViewModel>()
+    .Name("gridTests")
+    .HtmlAttributes(new { })
+    .GetGridBuilder(grid =>
+    {
+        grid.Columns(columns =>
+        {
+            columns.Bound(e => e.TestName).Width(300).Title("Test Name");
+            columns.Bound(e => e.TestDetails).Width(600).Title("Test Details");
+            columns.Bound(e => e.Price).Width(150).Title("Test Price");
+          
+        });
+        grid.Search(search =>
+        {
+            search.Field(f => f.TestName);
+            search.Field(f => f.TestDetails);
+        });
+        grid.ColumnMenu(true);
+        grid.Groupable(g => g.Enabled(false));
+        grid.ToolBar(t =>
+        {
+            if (_currentUserService.IsAuthenticated)
+            {
+                t.Excel();
+                t.Pdf();
+            }
+            t.Search();
+        });
+        grid.Export("TestsList", Url.Action("Export_Save", "Home"));
+    })
+    .DataSource(dataSource =>
+    {
+        dataSource
+            .Ajax()
+            .PageSize(20)
+            .ServerOperation(true)
+            .Events(events => events.Error("error_handler"))
+            .Read(read => read.Action("Tests_Read", "Home"))
+            .Model(model =>
+            {
+                model.Id(p => p.Id);
+            });
+
+    }))
+
+@section Scripts
+{
+
+}

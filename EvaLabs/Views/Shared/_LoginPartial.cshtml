@@ -5,30 +5,31 @@
         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Test Menu</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Tests">Test Menu</a>
     </li>
     <li class="nav-item dropdown">
         <a role="button" href="#" class="nav-link text-dark dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Reservations
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">My Reservations</a>
-            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">House Visit Reservation</a>
+            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Reservations">My Reservations</a>
+            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="CreateReservation">House Visit Reservation</a>
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Branches</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Branches">Branches</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Contact Us</a>
-    </li>
+
 
     @if (_signInManager.IsSignedIn(User))
     {
-        var name = _currentUserService.Principal.GetFromClaims<string>(AppValues.AppClaims.FullName);
+
+        if (User.IsInRole(AppValues.AppRoles.Admin))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="admin" asp-controller="Home" asp-action="Index">Admin</a>
+            </li>
+        }
 
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>

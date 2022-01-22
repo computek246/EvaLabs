@@ -1,0 +1,30 @@
+﻿@model IEnumerable<EvaLabs.Areas.Admin.Models.ApiHelpEndpointViewModel>
+
+<p>Use this page to manage your site data.</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.DisplayableName)</th>
+        <th>@Html.DisplayNameFor(model => model.Controller)</th>
+        <th>@Html.DisplayNameFor(model => model.Action)</th>
+        <th>@Html.DisplayNameFor(model => model.Area)</th>
+        <th>@Html.DisplayNameFor(model => model.Attributes)</th>
+        <th>@Html.DisplayNameFor(model => model.ReturnType)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        var attributes = string.Join(", ", item.Attributes);
+        <tr>
+            <td>@Html.ActionLink(item.DisplayableName, item.Action, item.Controller, new { area = item.Area }, new { target = "_blank" })</td>
+            <td>@Html.DisplayFor(modelItem => item.Controller)</td>
+            <td>@Html.DisplayFor(modelItem => item.Action)</td>
+            <td>@Html.DisplayFor(modelItem => item.Area)</td>
+            <td>@Html.DisplayFor(modelItem => attributes)</td>
+            <td>@Html.DisplayFor(modelItem => item.ReturnType)</td>
+        </tr>
+    }
+    </tbody>
+</table>

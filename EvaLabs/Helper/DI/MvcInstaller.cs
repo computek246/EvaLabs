@@ -3,6 +3,8 @@ using EvaLabs.Helper.Implementations;
 using EvaLabs.Helper.Installers;
 using EvaLabs.Interfaces;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,24 +14,25 @@ namespace EvaLabs.Helper.DI
 {
     public class MvcInstaller : IInstaller
     {
-        public void InstallServices(IServiceCollection services, IConfiguration configuration)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddRazorPages();
             services.AddMvc(options =>
                 {
                     options.Filters.Add<ExceptionFilter>();
+                    options.EnableEndpointRouting = true;
+                    
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddFluentValidation();
 
-
-            // Add framework services.
             services
                 .AddControllersWithViews()
-                // Maintain property names during serialization. See:
-                // https://github.com/aspnet/Announcements/issues/194
-                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            // Add Kendo UI services to the services container
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                });
+
             services.AddKendo();
 
             services.AddSingleton<IDateTimeService, DateTimeService>();
@@ -37,6 +40,11 @@ namespace EvaLabs.Helper.DI
             services.AddHttpContextAccessor();
 
             services.AddHealthChecks();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseMiddleWares(env);
         }
 
         public int Order => 3;

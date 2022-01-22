@@ -5,13 +5,13 @@ using EvaLabs.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvaLabs.Controllers
+namespace EvaLabs.Areas.Admin.Controllers
 {
-    public class UserController : Controller
+    public class TestStatusController : AdminBaseController
     {
         private readonly EvaContext _context;
 
-        public UserController(EvaContext context)
+        public TestStatusController(EvaContext context)
         {
             _context = context;
         }
@@ -19,7 +19,7 @@ namespace EvaLabs.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.TestStatuses.ToListAsync());
         }
 
 
@@ -27,11 +27,11 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var user = await _context.Users
+            var testStatus = await _context.TestStatuses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null) return NotFound();
+            if (testStatus == null) return NotFound();
 
-            return View(user);
+            return View(testStatus);
         }
 
 
@@ -43,16 +43,16 @@ namespace EvaLabs.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create(TestStatus testStatus)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(testStatus);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(user);
+            return View(testStatus);
         }
 
 
@@ -60,28 +60,28 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
-            return View(user);
+            var testStatus = await _context.TestStatuses.FindAsync(id);
+            if (testStatus == null) return NotFound();
+            return View(testStatus);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, User user)
+        public async Task<IActionResult> Edit(int id, TestStatus testStatus)
         {
-            if (id != user.Id) return NotFound();
+            if (id != testStatus.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(testStatus);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!TestStatusExists(testStatus.Id))
                         return NotFound();
                     throw;
                 }
@@ -89,7 +89,7 @@ namespace EvaLabs.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(user);
+            return View(testStatus);
         }
 
 
@@ -97,11 +97,11 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var user = await _context.Users
+            var testStatus = await _context.TestStatuses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null) return NotFound();
+            if (testStatus == null) return NotFound();
 
-            return View(user);
+            return View(testStatus);
         }
 
 
@@ -110,15 +110,15 @@ namespace EvaLabs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var testStatus = await _context.TestStatuses.FindAsync(id);
+            _context.TestStatuses.Remove(testStatus);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool TestStatusExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.TestStatuses.Any(e => e.Id == id);
         }
     }
 }

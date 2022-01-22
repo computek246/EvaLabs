@@ -5,13 +5,13 @@ using EvaLabs.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvaLabs.Controllers
+namespace EvaLabs.Areas.Admin.Controllers
 {
-    public class TestStatusController : Controller
+    public class CityController : AdminBaseController
     {
         private readonly EvaContext _context;
 
-        public TestStatusController(EvaContext context)
+        public CityController(EvaContext context)
         {
             _context = context;
         }
@@ -19,7 +19,7 @@ namespace EvaLabs.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TestStatuses.ToListAsync());
+            return View(await _context.Cities.ToListAsync());
         }
 
 
@@ -27,11 +27,11 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var testStatus = await _context.TestStatuses
+            var city = await _context.Cities
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (testStatus == null) return NotFound();
+            if (city == null) return NotFound();
 
-            return View(testStatus);
+            return View(city);
         }
 
 
@@ -43,16 +43,16 @@ namespace EvaLabs.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TestStatus testStatus)
+        public async Task<IActionResult> Create(City city)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(testStatus);
+                _context.Add(city);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(testStatus);
+            return View(city);
         }
 
 
@@ -60,28 +60,28 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var testStatus = await _context.TestStatuses.FindAsync(id);
-            if (testStatus == null) return NotFound();
-            return View(testStatus);
+            var city = await _context.Cities.FindAsync(id);
+            if (city == null) return NotFound();
+            return View(city);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, TestStatus testStatus)
+        public async Task<IActionResult> Edit(int id, City city)
         {
-            if (id != testStatus.Id) return NotFound();
+            if (id != city.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(testStatus);
+                    _context.Update(city);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TestStatusExists(testStatus.Id))
+                    if (!CityExists(city.Id))
                         return NotFound();
                     throw;
                 }
@@ -89,7 +89,7 @@ namespace EvaLabs.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(testStatus);
+            return View(city);
         }
 
 
@@ -97,11 +97,11 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var testStatus = await _context.TestStatuses
+            var city = await _context.Cities
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (testStatus == null) return NotFound();
+            if (city == null) return NotFound();
 
-            return View(testStatus);
+            return View(city);
         }
 
 
@@ -110,15 +110,15 @@ namespace EvaLabs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var testStatus = await _context.TestStatuses.FindAsync(id);
-            _context.TestStatuses.Remove(testStatus);
+            var city = await _context.Cities.FindAsync(id);
+            _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TestStatusExists(int id)
+        private bool CityExists(int id)
         {
-            return _context.TestStatuses.Any(e => e.Id == id);
+            return _context.Cities.Any(e => e.Id == id);
         }
     }
 }

@@ -1,4 +1,3 @@
-using EvaLabs.Helper.DI;
 using EvaLabs.Helper.Installers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +22,7 @@ namespace EvaLabs
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMiddleWares(env);
+            app.ConfigurePipelineInAssembly(env);
         }
     }
 }

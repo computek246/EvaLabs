@@ -29,7 +29,7 @@ namespace EvaLabs.Helper.DI
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(env.WebRootPath, "html"))
             });
-
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -39,11 +39,9 @@ namespace EvaLabs.Helper.DI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-
                 endpoints.MapRazorPages();
+                endpoints.MapControllerRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
 

@@ -5,13 +5,13 @@ using EvaLabs.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvaLabs.Controllers
+namespace EvaLabs.Areas.Admin.Controllers
 {
-    public class TestController : Controller
+    public class LabController : AdminBaseController
     {
         private readonly EvaContext _context;
 
-        public TestController(EvaContext context)
+        public LabController(EvaContext context)
         {
             _context = context;
         }
@@ -19,7 +19,7 @@ namespace EvaLabs.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tests.ToListAsync());
+            return View(await _context.Labs.ToListAsync());
         }
 
 
@@ -27,11 +27,11 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var test = await _context.Tests
+            var lab = await _context.Labs
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (test == null) return NotFound();
+            if (lab == null) return NotFound();
 
-            return View(test);
+            return View(lab);
         }
 
 
@@ -43,16 +43,16 @@ namespace EvaLabs.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Test test)
+        public async Task<IActionResult> Create(Lab lab)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(test);
+                _context.Add(lab);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(test);
+            return View(lab);
         }
 
 
@@ -60,28 +60,28 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var test = await _context.Tests.FindAsync(id);
-            if (test == null) return NotFound();
-            return View(test);
+            var lab = await _context.Labs.FindAsync(id);
+            if (lab == null) return NotFound();
+            return View(lab);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Test test)
+        public async Task<IActionResult> Edit(int id, Lab lab)
         {
-            if (id != test.Id) return NotFound();
+            if (id != lab.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(test);
+                    _context.Update(lab);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TestExists(test.Id))
+                    if (!LabExists(lab.Id))
                         return NotFound();
                     throw;
                 }
@@ -89,7 +89,7 @@ namespace EvaLabs.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(test);
+            return View(lab);
         }
 
 
@@ -97,11 +97,11 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var test = await _context.Tests
+            var lab = await _context.Labs
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (test == null) return NotFound();
+            if (lab == null) return NotFound();
 
-            return View(test);
+            return View(lab);
         }
 
 
@@ -110,15 +110,15 @@ namespace EvaLabs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var test = await _context.Tests.FindAsync(id);
-            _context.Tests.Remove(test);
+            var lab = await _context.Labs.FindAsync(id);
+            _context.Labs.Remove(lab);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TestExists(int id)
+        private bool LabExists(int id)
         {
-            return _context.Tests.Any(e => e.Id == id);
+            return _context.Labs.Any(e => e.Id == id);
         }
     }
 }

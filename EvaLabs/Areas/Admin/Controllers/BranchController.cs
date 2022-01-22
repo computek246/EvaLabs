@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvaLabs.Controllers
+namespace EvaLabs.Areas.Admin.Controllers
 {
-    public class BranchController : Controller
+    public class BranchController : AdminBaseController
     {
         private readonly EvaContext _context;
 

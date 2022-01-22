@@ -3,15 +3,16 @@ using System.Threading.Tasks;
 using EvaLabs.Domain.Context;
 using EvaLabs.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace EvaLabs.Controllers
+namespace EvaLabs.Areas.Admin.Controllers
 {
-    public class CityController : Controller
+    public class AreaController : AdminBaseController
     {
         private readonly EvaContext _context;
 
-        public CityController(EvaContext context)
+        public AreaController(EvaContext context)
         {
             _context = context;
         }
@@ -19,7 +20,8 @@ namespace EvaLabs.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cities.ToListAsync());
+            var evaContext = _context.Areas.Include(a => a.City);
+            return View(await evaContext.ToListAsync());
         }
 
 
@@ -27,32 +29,35 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var city = await _context.Cities
+            var area = await _context.Areas
+                .Include(a => a.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (city == null) return NotFound();
+            if (area == null) return NotFound();
 
-            return View(city);
+            return View(area);
         }
 
 
         public IActionResult Create()
         {
+            GetViewData(null);
             return View();
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(City city)
+        public async Task<IActionResult> Create(Area area)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(city);
+                _context.Add(area);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(city);
+            GetViewData(area);
+            return View(area);
         }
 
 
@@ -60,28 +65,29 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var city = await _context.Cities.FindAsync(id);
-            if (city == null) return NotFound();
-            return View(city);
+            var area = await _context.Areas.FindAsync(id);
+            if (area == null) return NotFound();
+            GetViewData(area);
+            return View(area);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, City city)
+        public async Task<IActionResult> Edit(int id, Area area)
         {
-            if (id != city.Id) return NotFound();
+            if (id != area.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(city);
+                    _context.Update(area);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CityExists(city.Id))
+                    if (!AreaExists(area.Id))
                         return NotFound();
                     throw;
                 }
@@ -89,7 +95,8 @@ namespace EvaLabs.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(city);
+            GetViewData(area);
+            return View(area);
         }
 
 
@@ -97,11 +104,12 @@ namespace EvaLabs.Controllers
         {
             if (id == null) return NotFound();
 
-            var city = await _context.Cities
+            var area = await _context.Areas
+                .Include(a => a.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (city == null) return NotFound();
+            if (area == null) return NotFound();
 
-            return View(city);
+            return View(area);
         }
 
 
@@ -110,15 +118,27 @@ namespace EvaLabs.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
-            _context.Cities.Remove(city);
+            var area = await _context.Areas.FindAsync(id);
+            _context.Areas.Remove(area);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CityExists(int id)
+        private bool AreaExists(int id)
         {
-            return _context.Cities.Any(e => e.Id == id);
+            return _context.Areas.Any(e => e.Id == id);
+        }
+
+        private void GetViewData(Area area)
+        {
+            if (area == null)
+            {
+                ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName");
+            }
+            else
+            {
+                ViewData["CityId"] = new SelectList(_context.Cities, "Id", "CityName", area.CityId);
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace EvaLabs.Models
+namespace EvaLabs.Areas.Admin.Models
 {
     public class ApiHelpEndpointViewModel
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using EvaLabs.Helper.ExtensionMethod;
 
-namespace EvaLabs.Models
+namespace EvaLabs.Areas.Admin.Models
 {
     public static class AssemblyExtension
     {

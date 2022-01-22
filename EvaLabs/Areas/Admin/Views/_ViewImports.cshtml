@@ -1,0 +1,21 @@
+
+
+@addTagHelper *, Kendo.Mvc
+@using EvaLabs.Domain.Entities
+@using EvaLabs.Helper
+@using EvaLabs.Interfaces
+@using Kendo.Mvc.UI
+@using Microsoft.AspNetCore.Identity
+@using EvaLabs.Helper.Constant
+@using EvaLabs.Helper.ExtensionMethod
+@using EvaLabs.Infrastructure.SingletonFactory
+@using Microsoft.Extensions.Options
+@using User = EvaLabs.Security.Entities.User
+
+@inject SignInManager<User> _signInManager
+@inject UserManager<User> _userManager
+@inject ICurrentUserService<int> _currentUserService
+@inject IOptions<AppSettings> _options
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

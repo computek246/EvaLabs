@@ -1,4 +1,4 @@
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace EvaLabs.Helper.ExtensionMethod
 {
@@ -6,12 +6,16 @@ namespace EvaLabs.Helper.ExtensionMethod
     {
         public static string ToJson<TSource>(this TSource data)
         {
-            return JsonSerializer.Serialize(data);
+            return JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
         }
 
         public static TResult FromJson<TResult>(this string json)
         {
-            return JsonSerializer.Deserialize<TResult>(json);
+            return JsonConvert.DeserializeObject<TResult>(json);
         }
     }
 }

@@ -1,0 +1,66 @@
+﻿@using EvaLabs.ViewModels.Branch
+
+@{
+    ViewData["Title"] = "Branches";
+}
+
+<h1>Branches</h1>
+
+
+@(Html.Kendo().Grid<BranchViewModel>()
+    .Name("gridBranches")
+    .HtmlAttributes(new { })
+    .GetGridBuilder(grid =>
+    {
+        grid.Columns(columns =>
+        {
+            columns.Bound(e => e.BranchName).Width(300).Title("Branch Name");
+            columns.Bound(e => e.BranchAddress).Width(600).Title("Branch Address");
+            columns.Bound(e => e.AreaName).Width(300).Title("Area").Hidden(true);
+            columns.Bound(e => e.CityName).Width(300).Title("City").Hidden(true);
+            
+        });
+        grid.Search(search =>
+        {
+            search.Field(f => f.BranchName);
+            search.Field(f => f.BranchAddress);
+            search.Field(f => f.AreaName);
+            search.Field(f => f.CityName);
+        });
+        grid.ColumnMenu(true);
+        grid.Groupable(g => g.Enabled(false));
+        grid.ToolBar(t =>
+        {
+            if (_currentUserService.IsAuthenticated)
+            {
+                t.Excel();
+                t.Pdf();
+            }
+            t.Search();
+        });
+        grid.Export("BranchesList", Url.Action("Export_Save", "Home"));
+    })
+    .DataSource(dataSource =>
+    {
+        dataSource
+            .Ajax()
+            .PageSize(20)
+            .ServerOperation(true)
+            .Events(events => events.Error("error_handler"))
+            .Group(g =>
+            {
+                g.Add(e => e.CityName);
+                g.Add(e => e.AreaName);
+            })
+            .Read(read => read.Action("Branches_Read", "Home"))
+            .Model(model =>
+            {
+                model.Id(p => p.Id);
+            });
+
+    }))
+
+@section Scripts
+{
+
+}

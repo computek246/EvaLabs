@@ -3,6 +3,8 @@ using EvaLabs.Helper.Installers;
 using EvaLabs.Security.Context;
 using EvaLabs.Security.Entities;
 using EvaLabs.Security.Implementations;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ namespace EvaLabs.Security.DI
 {
     public class SecurityInstaller : IInstaller
     {
-        public void InstallServices(IServiceCollection services, IConfiguration configuration)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
@@ -34,6 +36,10 @@ namespace EvaLabs.Security.DI
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
             services.Configure<IdentityOptions>(configuration.GetSection("IdentityOptions"));
             services.AddScoped<IEmailSender, EmailSender>();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
         }
 
         public int Order => 2;

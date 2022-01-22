@@ -4,6 +4,8 @@ using EvaLabs.Domain.Entities;
 using EvaLabs.Helper.ExtensionMethod;
 using EvaLabs.Helper.Installers;
 using EvaLabs.Infrastructure.SingletonFactory;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +14,7 @@ namespace EvaLabs.Domain.DI
 {
     public class DomainInstaller : IInstaller
     {
-        public void InstallServices(IServiceCollection services, IConfiguration configuration)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<EvaContext>(options =>
@@ -29,6 +31,10 @@ namespace EvaLabs.Domain.DI
                     Singleton<Lab>.Instance = context.Labs.FirstOrDefault(e => e.IsActive);
                 }
             });
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
         }
 
         public int Order => 1;
