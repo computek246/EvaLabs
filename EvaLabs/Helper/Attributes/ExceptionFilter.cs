@@ -32,13 +32,13 @@ namespace EvaLabs.Helper.Attributes
         public void OnActionExecuting(ActionExecutingContext context)
         {
             // do nothing
-            _logger.LogInformation($"OnActionExecuting :{context.Controller}/{context.ActionDescriptor.DisplayName}");
+            _logger.LogInformation($"OnActionExecuting :{context.ActionDescriptor.DisplayName}");
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
             // do nothing
-            _logger.LogInformation($"OnActionExecuted :{context.Controller}/{context.ActionDescriptor.DisplayName}");
+            _logger.LogInformation($"OnActionExecuted :{context.ActionDescriptor.DisplayName}");
         }
     }
 }

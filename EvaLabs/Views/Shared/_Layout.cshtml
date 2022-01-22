@@ -1,17 +1,32 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    var controller = (string)ViewContext.RouteData.Values["controller"];
+    var action = (string)ViewContext.RouteData.Values["action"];
+    var title = controller != null ? controller + (action == "Index" ? "" : $" > {action}") : "";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SELECT - Task Management</title>
+    <title>@title | @_options.Value.AppName</title>
     <partial name="_StyleLinks" />
-    
+
 </head>
 <body>
 
     <partial name="_Header" />
     <div class="container">
         <main role="main" class="pb-3">
+
+            <div class="row float-right">
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
             @RenderBody()
         </main>
     </div>

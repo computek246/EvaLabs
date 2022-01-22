@@ -22,6 +22,9 @@ namespace EvaLabs.Domain.Configurations.Base
             builder.HasKey(e => e.Id);
             builder.HasQueryFilter(e => e.IsDeleted == false);
 
+            //builder.Property(e => e.IsActive).HasDefaultValue(true);
+            //builder.Property(e => e.IsDeleted).HasDefaultValue(false);
+
             builder.Property(e => e.CreatorId).HasDefaultValue(120);
             builder.Property(e => e.ModifierId).HasDefaultValue(120);
             builder.Property(e => e.CreationDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");

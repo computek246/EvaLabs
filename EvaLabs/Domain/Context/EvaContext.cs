@@ -1,4 +1,4 @@
-﻿using EvaLabs.Domain.Entities;
+using EvaLabs.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvaLabs.Domain.Context
@@ -21,6 +21,7 @@ namespace EvaLabs.Domain.Context
         public DbSet<TestStatus> TestStatuses { get; set; }
         public DbSet<UserTest> UserTests { get; set; }
         public DbSet<TestResult> TestResults { get; set; }
+        public DbSet<TestBranchs> TestBranchs { get; set; }
 
     }
 }

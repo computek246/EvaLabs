@@ -1,6 +1,8 @@
-﻿using EvaLabs.Helper.Middlewares;
+﻿using System.IO;
+using EvaLabs.Helper.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace EvaLabs.Helper.DI
@@ -21,6 +23,13 @@ namespace EvaLabs.Helper.DI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.WebRootPath, "html"))
+            });
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

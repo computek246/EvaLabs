@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
 namespace EvaLabs.Helper.Middlewares
@@ -40,9 +41,11 @@ namespace EvaLabs.Helper.Middlewares
                 var responseTimeForCompleteRequest = watch.ElapsedMilliseconds;
                 // Add the Response time information in the Response headers.
                 context.Response.Headers[ResponseHeaderResponseTime] = responseTimeForCompleteRequest.ToString();
-
                 var fullUrl = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}{context.Request.QueryString}";
-                _logger?.LogDebug($"[Performance] Request to {fullUrl} took {responseTimeForCompleteRequest} ms");
+                
+                _logger.LogTrace($"[Performance] [{context.Request.Method}] Request to {fullUrl} took {responseTimeForCompleteRequest} Milliseconds");
+                _logger.LogTrace($"[StatusCode: {ReasonPhrases.GetReasonPhrase(context.Response.StatusCode)}]");
+                _logger.LogDebug($"[IpAddress: \"{context.Connection.RemoteIpAddress}\"]");
 
                 return Task.CompletedTask;
             });
