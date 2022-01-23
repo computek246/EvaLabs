@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EvaLabs.Helper.ExtensionMethod
 {
@@ -23,6 +24,14 @@ namespace EvaLabs.Helper.ExtensionMethod
                 .Select(t => t.CSharpName())));
             sb.Append('>');
             return sb.ToString();
+        }
+
+        public static SelectList ToSelectList<TEnum>(this TEnum enumObj)
+            where TEnum : struct, IComparable, IFormattable, IConvertible
+        {
+            var values = from TEnum e in Enum.GetValues(typeof(TEnum))
+                select new { Id = e, Name = e.ToString() };
+            return new SelectList(values, "Id", "Name", enumObj);
         }
     }
 }

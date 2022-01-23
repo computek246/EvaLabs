@@ -48,10 +48,13 @@ namespace EvaLabs.Areas.Admin.Controllers
         public IActionResult Create()
         {
             GetViewData(null);
-            return View();
+            return View(new UserTest
+            {
+                TestLocation = 2
+            });
         }
 
-        
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

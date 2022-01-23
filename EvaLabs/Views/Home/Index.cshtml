@@ -3,26 +3,7 @@
 
 <div class="row">
     <div class="col-12">
-
-        @(Html.Kendo().Grid<object>()
-            .Name("grid")
-            .Columns(columns =>
-            {
-
-            })
-            .ToolBar(toolbar =>
-            {
-                toolbar.ClientTemplateId("GridToolbarTemplate");
-            })
-            .Sortable()
-            .Scrollable()
-            .DataSource(dataSource => dataSource
-                .Ajax()
-                .ServerOperation(false)
-                .Model(model => model.Id(p => p))
-                .Read("ToolbarTemplate_Read", "Grid")
-            )
-            )
+        
     </div>
 </div>
 

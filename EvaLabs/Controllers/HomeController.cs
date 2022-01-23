@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EvaLabs.Controllers
 {
-    [AllowAnonymous]
+    
     public class HomeController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -33,28 +33,32 @@ namespace EvaLabs.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
-
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
 
 
+        [AllowAnonymous]
         public IActionResult About()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Branches()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Tests()
         {
             return View();
@@ -71,6 +75,7 @@ namespace EvaLabs.Controllers
         }
 
 
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -88,6 +93,8 @@ namespace EvaLabs.Controllers
             return File(fileContents, contentType, fileName);
         }
 
+
+        [AllowAnonymous]
         public async Task<IActionResult> Branches_Read([DataSourceRequest] DataSourceRequest request)
         {
             try
@@ -107,6 +114,7 @@ namespace EvaLabs.Controllers
         }
 
 
+        [AllowAnonymous]
         public async Task<IActionResult> Tests_Read([DataSourceRequest] DataSourceRequest request)
         {
             try

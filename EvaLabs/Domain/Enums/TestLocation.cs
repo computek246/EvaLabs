@@ -2,7 +2,7 @@
 {
     public enum TestLocation
     {
-        AtHome,
+        AtHome = 1,
         InBranch
     }
 }
